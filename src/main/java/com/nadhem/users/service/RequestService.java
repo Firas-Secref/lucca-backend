@@ -8,6 +8,7 @@ import com.nadhem.users.entities.Status;
 import com.nadhem.users.entities.User;
 import com.nadhem.users.repos.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -46,11 +47,11 @@ public class RequestService {
     }
 
     public List<RequestResponseDto> getAllRequestsForRhUser(){
-        return this.requestRepository.findAll().stream().map(RequestResponseDto::toRequestResponseDto).collect(Collectors.toList());
+        return this.requestRepository.findAll(Sort.by(Sort.Direction.DESC, "requestId")).stream().map(RequestResponseDto::toRequestResponseDto).collect(Collectors.toList());
     }
 
     public List<RequestResponseDto> getMyRequests(int employeeId){
-        return this.requestRepository.findAll()
+        return this.requestRepository.findAll(Sort.by(Sort.Direction.DESC, "requestId"))
                 .stream()
                 .filter(r-> r.getUser().getUserId() == employeeId)
                 .map(RequestResponseDto::toRequestResponseDto)
@@ -58,7 +59,7 @@ public class RequestService {
     }
 
     public List<RequestResponseDto> getMyEmployeeRequests(int managerId){
-        return this.requestRepository.findAll()
+        return this.requestRepository.findAll(Sort.by(Sort.Direction.DESC, "requestId"))
                 .stream()
                 .filter(r-> r.getUser().getManagerId() == managerId)
                 .map(RequestResponseDto::toRequestResponseDto)
@@ -67,7 +68,7 @@ public class RequestService {
 
     public List <RequestResponseDto> getAllEmployeesHolidays(){
 
-        return this.requestRepository.findAll()
+        return this.requestRepository.findAll(Sort.by(Sort.Direction.DESC, "requestId"))
                 .stream()
                 .filter(r->r.getCategory().getCategoryName().equals("PAID VACATION") || r.getCategory().getCategoryName().equals("MEDICAL LEAVE"))
                 .map(RequestResponseDto::toRequestResponseDto)
@@ -76,7 +77,7 @@ public class RequestService {
     }
 
     public List<RequestResponseDto> geMytHomeOfficeRequest(int employeeId){
-        return this.requestRepository.findAll()
+        return this.requestRepository.findAll(Sort.by(Sort.Direction.DESC, "requestId"))
                 .stream()
                 .filter(r->r.getCategory().getCategoryName().equals("HOME OFFICE") && r.getUser().getUserId() == employeeId)
                 .map(RequestResponseDto::toRequestResponseDto)
@@ -84,7 +85,7 @@ public class RequestService {
     }
 
     public List<RequestResponseDto> getAllHomeOfficeRequest(){
-        return this.requestRepository.findAll()
+        return this.requestRepository.findAll(Sort.by(Sort.Direction.DESC, "requestId"))
                 .stream()
                 .filter(r->r.getCategory().getCategoryName().equals("HOME OFFICE"))
                 .map(RequestResponseDto::toRequestResponseDto)
