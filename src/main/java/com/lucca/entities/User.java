@@ -9,6 +9,8 @@ import java.util.List;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 @NoArgsConstructor @AllArgsConstructor
@@ -59,7 +61,7 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Request> requests = new ArrayList<>();
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Interview> interviews = new ArrayList<>();
 
 	public List<Note> getNotes() {

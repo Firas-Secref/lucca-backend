@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
@@ -24,8 +26,9 @@ public class Interview {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @OneToMany(mappedBy = "interview", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "interview", cascade = CascadeType.REMOVE)
     private List<Question> questions;
 }
