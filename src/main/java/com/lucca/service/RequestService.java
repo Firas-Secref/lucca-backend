@@ -27,6 +27,9 @@ public class RequestService {
     private StatusSevice statusSevice;
 
     @Autowired
+    private HolidayService holidayService;
+
+    @Autowired
     private CategoryService categoryService;
 
     public RequestResponseDto addNewRequest(RequestDto requestDto){
