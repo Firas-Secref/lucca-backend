@@ -45,7 +45,7 @@ public class User {
 			inverseJoinColumns = @JoinColumn(name="note_id"))
 	private List<Note> notes = new ArrayList<>();
 
-    @ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
 	@JoinTable(name="user_role",joinColumns = @JoinColumn(name="user_id") , 
 			   inverseJoinColumns = @JoinColumn(name="role_id")) 
 	private List<Role> roles = new ArrayList<>();

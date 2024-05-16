@@ -30,6 +30,9 @@ public class UserServiceImpl  implements UserService{
 	private DepartmentService departmentService;
 
 	@Autowired
+	private EmailService emailService;
+
+	@Autowired
 	private NoteRepository noteRepository;
 	
 	
@@ -50,6 +53,10 @@ public class UserServiceImpl  implements UserService{
 		user.setEmail(userDto.getEmail());
 		user.setStartDate(userDto.getStartDate());
 		this.userRep.save(user);
+		this.emailService.sendMail(user.getEmail(),
+				"GRH ACCOUNT",
+				"Welcome "+userDto.getFirstname()+ " "+ userDto.getLastname()+"."+"\nYour credentials to access to our platform is: \n" +
+						userDto.getUsername()+ "\n"+userDto.getPassword());
 
 		return this.addRoleToUser(userDto.getUsername(), userDto.getRolename());
 	}
@@ -68,6 +75,11 @@ public class UserServiceImpl  implements UserService{
 		user.setStartDate(user.getStartDate());
 		user.setManagerId(managerId);
 		this.userRep.save(user);
+
+		this.emailService.sendMail(user.getEmail(),
+				"GRH ACCOUNT",
+				"Welcome "+user.getFirstname()+ " "+ user.getLastname()+"."+"\nYour credentials to access to our platform is: \n" +
+						user.getUsername()+ "\n"+user.getPassword());
 
 		return this.addRoleToUser(userDto.getUsername(), userDto.getRolename());
 	}
