@@ -20,6 +20,7 @@ public class MyUserDetailsService implements UserDetailsService {
 	
 @Override
 public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	System.out.println("load user by username");
 	User user = userService.findUserByUsername(username);
 
 	if (user==null) throw new UsernameNotFoundException("Utilisateur introuvable !");
@@ -27,11 +28,12 @@ public UserDetails loadUserByUsername(String username) throws UsernameNotFoundEx
 	List<GrantedAuthority> auths = new ArrayList<>();
 	
 	 user.getRoles().forEach(role -> {
+		 System.out.println("role"+role);
 		 GrantedAuthority auhority = new SimpleGrantedAuthority(role.getRole());
 		 auths.add(auhority);
 	 });
 	
 	return new org.springframework.security.core.
-			userdetails.User(user.getUsername(),user.getPassword(),auths);
+			userdetails.User(user.getUsername(),user.getPassword(), !user.isDisabled(), true, true,true ,auths);
   }
 }

@@ -53,10 +53,11 @@ public class UserServiceImpl  implements UserService{
 		user.setEmail(userDto.getEmail());
 		user.setStartDate(userDto.getStartDate());
 		this.userRep.save(user);
-		this.emailService.sendMail(user.getEmail(),
-				"GRH ACCOUNT",
-				"Welcome "+userDto.getFirstname()+ " "+ userDto.getLastname()+"."+"\nYour credentials to access to our platform is: \n" +
-						userDto.getUsername()+ "\n"+userDto.getPassword());
+		//todo raja3ni
+	//		this.emailService.sendMail(user.getEmail(),
+	//				"GRH ACCOUNT",
+	//				"Welcome "+userDto.getFirstname()+ " "+ userDto.getLastname()+"."+"\nYour credentials to access to our platform is: \n" +
+	//						userDto.getUsername()+ "\n"+userDto.getPassword());
 
 		return this.addRoleToUser(userDto.getUsername(), userDto.getRolename());
 	}
@@ -75,11 +76,11 @@ public class UserServiceImpl  implements UserService{
 		user.setStartDate(user.getStartDate());
 		user.setManagerId(managerId);
 		this.userRep.save(user);
-
-		this.emailService.sendMail(user.getEmail(),
-				"GRH ACCOUNT",
-				"Welcome "+user.getFirstname()+ " "+ user.getLastname()+"."+"\nYour credentials to access to our platform is: \n" +
-						user.getUsername()+ "\n"+user.getPassword());
+//todo raja3ni
+//		this.emailService.sendMail(user.getEmail(),
+//				"GRH ACCOUNT",
+//				"Welcome "+user.getFirstname()+ " "+ user.getLastname()+"."+"\nYour credentials to access to our platform is: \n" +
+//						user.getUsername()+ "\n"+user.getPassword());
 
 		return this.addRoleToUser(userDto.getUsername(), userDto.getRolename());
 	}
@@ -151,6 +152,12 @@ public class UserServiceImpl  implements UserService{
 
 	public void deleteUser(int userId){
 		this.userRep.deleteById(userId);
+	}
+
+	@Transactional
+	public void disableUser(int userId){
+		User existingUser = this.userRep.findById(userId).orElseThrow(()-> new RuntimeException("No user much with this id"));
+		existingUser.setDisabled(true);
 	}
 
 

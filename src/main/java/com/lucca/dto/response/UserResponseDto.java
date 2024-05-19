@@ -22,6 +22,7 @@ public class UserResponseDto {
     private String country;
     private String roleName;
     private String startDate;
+    private boolean disabled;
     private int holidayCountDays;
     private List<Note> notes;
     private DepartmentResponseDto departmentResponseDto;
@@ -44,6 +45,7 @@ public class UserResponseDto {
                 .holidayCountDays(user.getHolidayCountDays() != null ? user.getHolidayCountDays() : 0)
                 .roleName(!user.getRoles().isEmpty() ? user.getRoles().get(0).getRole() : "")
                 .notes(user.getNotes())
+                .disabled(user.isDisabled())
                 .departmentResponseDto(DepartmentResponseDto.toDepartmentResponseDto(user.getDepartment()))
                 .build();
     }

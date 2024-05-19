@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.lucca.repos.UserRepository;
+import com.lucca.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,13 +23,14 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lucca.entities.User;
+import org.w3c.dom.ls.LSOutput;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 
 
 	private AuthenticationManager authenticationManager;
 
-	
+
 	
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
 		super();
@@ -35,11 +40,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-	
+		System.out.println("attempt Auth");
 		User user =null;
 		try {
 			 user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-			System.out.println(user.getPassword());
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -47,7 +51,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		} catch (IOException e) {			
 			e.printStackTrace();
 		}
-			
 		return authenticationManager.
 				authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
 	}
@@ -66,6 +69,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		String jwt = JWT.create().
 				  withSubject(springUser.getUsername()).
+				withClaim("disabled", springUser.isEnabled()).
 		withArrayClaim("roles", roles.toArray(new String[roles.size()])).
 		withExpiresAt(new Date(System.currentTimeMillis()+SecParams.EXP_TIME)). 
 		sign(Algorithm.HMAC256(SecParams.SECRET));

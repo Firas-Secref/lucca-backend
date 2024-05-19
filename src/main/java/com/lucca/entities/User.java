@@ -34,6 +34,9 @@ public class User {
 	private String country;
 	private String startDate;
 
+	@Column(nullable = true)
+	private boolean disabled;
+
 	@Transient
 	private Integer holidayCountDays;
 
@@ -63,6 +66,9 @@ public class User {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Interview> interviews = new ArrayList<>();
+
+	@OneToMany(mappedBy = "user")
+	private List<FeedBack> feedBacks;
 
 	public List<Note> getNotes() {
 		return notes;
@@ -120,6 +126,14 @@ public class User {
 		this.email = email;
 	}
 
+	public List<FeedBack> getFeedBacks() {
+		return feedBacks;
+	}
+
+	public void setFeedBacks(List<FeedBack> feedBacks) {
+		this.feedBacks = feedBacks;
+	}
+
 	public String getAddress() {
 		return address;
 	}
@@ -162,6 +176,14 @@ public class User {
 
 	public void setHolidayCountDays(Integer holidayCountDays) {
 		this.holidayCountDays = holidayCountDays;
+	}
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
 	}
 
 	public Integer getManagerId() {
