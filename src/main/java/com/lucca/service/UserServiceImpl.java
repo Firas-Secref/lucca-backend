@@ -54,10 +54,10 @@ public class UserServiceImpl  implements UserService{
 		user.setStartDate(userDto.getStartDate());
 		this.userRep.save(user);
 		//todo raja3ni
-	//		this.emailService.sendMail(user.getEmail(),
-	//				"GRH ACCOUNT",
-	//				"Welcome "+userDto.getFirstname()+ " "+ userDto.getLastname()+"."+"\nYour credentials to access to our platform is: \n" +
-	//						userDto.getUsername()+ "\n"+userDto.getPassword());
+			this.emailService.sendMail(user.getEmail(),
+					"GRH ACCOUNT",
+					"Welcome "+userDto.getFirstname()+ " "+ userDto.getLastname()+"."+"\nYour credentials to access to our platform is: \n" +
+							userDto.getUsername()+ "\n"+userDto.getPassword());
 
 		return this.addRoleToUser(userDto.getUsername(), userDto.getRolename());
 	}
@@ -77,10 +77,10 @@ public class UserServiceImpl  implements UserService{
 		user.setManagerId(managerId);
 		this.userRep.save(user);
 //todo raja3ni
-//		this.emailService.sendMail(user.getEmail(),
-//				"GRH ACCOUNT",
-//				"Welcome "+user.getFirstname()+ " "+ user.getLastname()+"."+"\nYour credentials to access to our platform is: \n" +
-//						user.getUsername()+ "\n"+user.getPassword());
+		this.emailService.sendMail(user.getEmail(),
+				"GRH ACCOUNT",
+				"Welcome "+user.getFirstname()+ " "+ user.getLastname()+"."+"\nYour credentials to access to our platform is: \n" +
+						user.getUsername()+ "\n"+user.getPassword());
 
 		return this.addRoleToUser(userDto.getUsername(), userDto.getRolename());
 	}
