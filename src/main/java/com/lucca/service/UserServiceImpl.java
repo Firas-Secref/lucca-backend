@@ -145,7 +145,7 @@ public class UserServiceImpl  implements UserService{
 
 	public List<UserResponseDto> getAllUsers(String username){
 		return this.userRep.findAll().stream()
-				.filter(user-> user.getUsername() != username)
+//				.filter(user-> user.getUsername() != username)
 				.map(UserResponseDto::toUserResponseDto)
 				.collect(Collectors.toList());
 	}
